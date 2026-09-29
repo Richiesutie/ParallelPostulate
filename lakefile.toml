@@ -1,0 +1,24 @@
+name = "LeanCodeParallel"
+version = "0.1.0"
+keywords = ["math"]
+defaultTargets = ["LeanCodeParallel"]
+
+[leanOptions]
+pp.unicode.fun = true # pretty-prints `fun a ↦ b`
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = false
+maxSynthPendingDepth = 3
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.35.0-rc3"
+
+# Every file of the folder is a module of its own, at the top level.
+[[lean_lib]]
+name = "LeanCodeParallel"
+roots = [
+  "ThreeDimensions",
+  "HyperbolicPlane",
+  "HilbertPlane",
+]
