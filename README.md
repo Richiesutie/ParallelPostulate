@@ -96,3 +96,7 @@ at the end of `HilbertPlane.lean`.
 * **Euclid's fifth postulate with angles** is refuted for the bound `-1` only.
 * **Not in Mathlib style.** The development uses its own coordinates and vocabulary rather than
   Mathlib's `EuclideanSpace`, `Sbtw` or the upper half-plane `ℍ`.
+
+## License
+
+Released under the Apache License 2.0; see `LICENSE`.
