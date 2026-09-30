@@ -1,6 +1,6 @@
-# LeanCodeParallel
+# ParallelPostulate
 
-[![Lean Action CI](https://github.com/Richiesutie/LeanCodeParallel/actions/workflows/lean_action_ci.yml/badge.svg)](https://github.com/Richiesutie/LeanCodeParallel/actions/workflows/lean_action_ci.yml)
+[![Lean Action CI](https://github.com/Richiesutie/ParallelPostulate/actions/workflows/lean_action_ci.yml/badge.svg)](https://github.com/Richiesutie/ParallelPostulate/actions/workflows/lean_action_ci.yml)
 
 Formal proofs, in Lean 4 with Mathlib, about Euclid's parallel postulate:
 
@@ -33,7 +33,7 @@ The same result without continuity is `Hilbert.playfair_independent`.
 ### What has to be read
 
 The statement of the main theorem uses only the definitions in
-[`LeanCodeParallel/Hilbert/Defs.lean`](LeanCodeParallel/Hilbert/Defs.lean), a file of 118 lines
+[`ParallelPostulate/Hilbert/Defs.lean`](ParallelPostulate/Hilbert/Defs.lean), a file of 118 lines
 that imports only `Mathlib.Data.Set.Basic`: `Collinear`, `OnRay`, `SameSide`, the structure
 `HilbertPlane`, `Parallel`, `Playfair`, `Archimedes` and `Dedekind`. To trust the theorem, it is
 enough to check that these say what Hilbert's axioms say. The rest of `Hilbert/` and all of
@@ -64,11 +64,11 @@ formalised.
 
 * builds the library with Mathlib's standard linter set (`weak.linter.mathlibStandardSet`) and
   with `autoImplicit = false`, with no warnings;
-* runs [`LeanCodeParallel/AxiomCheck.lean`](LeanCodeParallel/AxiomCheck.lean), which checks with
+* runs [`ParallelPostulate/AxiomCheck.lean`](ParallelPostulate/AxiomCheck.lean), which checks with
   `#guard_msgs` that each of 22 main theorems depends on exactly `propext`, `Classical.choice`
   and `Quot.sound`, so the build fails if any of them ever picks up `sorry` or another axiom.
 
-Batteries' environment linters also pass: `#lint in LeanCodeParallel` reports no problems in
+Batteries' environment linters also pass: `#lint in ParallelPostulate` reports no problems in
 412 declarations.
 
 ## Other results
@@ -92,8 +92,8 @@ Batteries' environment linters also pass: `#lint in LeanCodeParallel` reports no
 ## Layout
 
 ```
-LeanCodeParallel.lean                 root of the library: imports every module
-LeanCodeParallel/
+ParallelPostulate.lean                 root of the library: imports every module
+ParallelPostulate/
   Basic.lean                          dimensions, the cross product and the figure (namespace Pairs)
   ThreeDimensions.lean                the plane of pairs of numbers, and the parallel postulate there
   HyperbolicPlane.lean                overview of the plane of a curvature bound κ

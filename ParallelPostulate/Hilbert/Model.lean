@@ -3,8 +3,8 @@ Copyright (c) 2026 Richard Sutton. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Richard Sutton
 -/
-import LeanCodeParallel.HyperbolicPlane
-import LeanCodeParallel.Hilbert.Defs
+import ParallelPostulate.HyperbolicPlane
+import ParallelPostulate.Hilbert.Defs
 
 /-!
 # The plane of a bound as a Hilbert plane

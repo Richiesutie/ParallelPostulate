@@ -3,10 +3,10 @@ Copyright (c) 2026 Richard Sutton. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Richard Sutton
 -/
-import LeanCodeParallel.Hilbert.Defs
-import LeanCodeParallel.Hilbert.Model
-import LeanCodeParallel.Hilbert.Continuity
-import LeanCodeParallel.Hilbert.Independence
+import ParallelPostulate.Hilbert.Defs
+import ParallelPostulate.Hilbert.Model
+import ParallelPostulate.Hilbert.Continuity
+import ParallelPostulate.Hilbert.Independence
 
 /-!
 # Hilbert planes, and the independence of the parallel postulate

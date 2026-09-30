@@ -3,7 +3,7 @@ Copyright (c) 2026 Richard Sutton. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Richard Sutton
 -/
-import LeanCodeParallel.Basic
+import ParallelPostulate.Basic
 import Mathlib.Algebra.Order.Field.Basic
 import Mathlib.Algebra.Order.Field.Rat
 import Mathlib.Algebra.Ring.Prod

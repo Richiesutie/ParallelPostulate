@@ -3,14 +3,14 @@ Copyright (c) 2026 Richard Sutton. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Richard Sutton
 -/
-import LeanCodeParallel.HyperbolicPlane.Plane
-import LeanCodeParallel.HyperbolicPlane.Motions
-import LeanCodeParallel.HyperbolicPlane.Angles
-import LeanCodeParallel.HyperbolicPlane.Metric
-import LeanCodeParallel.HyperbolicPlane.Curvature
-import LeanCodeParallel.HyperbolicPlane.Distance
-import LeanCodeParallel.HyperbolicPlane.Congruence
-import LeanCodeParallel.HyperbolicPlane.LeaningFigure
+import ParallelPostulate.HyperbolicPlane.Plane
+import ParallelPostulate.HyperbolicPlane.Motions
+import ParallelPostulate.HyperbolicPlane.Angles
+import ParallelPostulate.HyperbolicPlane.Metric
+import ParallelPostulate.HyperbolicPlane.Curvature
+import ParallelPostulate.HyperbolicPlane.Distance
+import ParallelPostulate.HyperbolicPlane.Congruence
+import ParallelPostulate.HyperbolicPlane.LeaningFigure
 
 /-!
 # The hyperbolic plane: a bound on the dimensions

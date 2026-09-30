@@ -3,7 +3,7 @@ Copyright (c) 2026 Richard Sutton. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Richard Sutton
 -/
-import LeanCodeParallel.HyperbolicPlane.Metric
+import ParallelPostulate.HyperbolicPlane.Metric
 import Mathlib.Analysis.Calculus.ContDiff.Deriv
 import Mathlib.Analysis.SpecialFunctions.Arsinh
 import Mathlib.Analysis.SpecialFunctions.Sqrt

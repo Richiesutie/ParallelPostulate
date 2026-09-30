@@ -3,7 +3,7 @@ Copyright (c) 2026 Richard Sutton. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Richard Sutton
 -/
-import LeanCodeParallel.HyperbolicPlane.Plane
+import ParallelPostulate.HyperbolicPlane.Plane
 
 /-!
 # Steps and motions

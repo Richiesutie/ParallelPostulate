@@ -3,9 +3,9 @@ Copyright (c) 2026 Richard Sutton. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Richard Sutton
 -/
-import LeanCodeParallel.ThreeDimensions
-import LeanCodeParallel.HyperbolicPlane
-import LeanCodeParallel.Hilbert
+import ParallelPostulate.ThreeDimensions
+import ParallelPostulate.HyperbolicPlane
+import ParallelPostulate.Hilbert
 
 /-!
 # The axioms of the main theorems
