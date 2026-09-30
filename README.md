@@ -5,7 +5,7 @@ Formal proofs, in Lean 4 with Mathlib, about Euclid's parallel postulate:
 * it holds in the Euclidean plane;
 * it fails in the Beltrami–Klein model of the hyperbolic plane, in Playfair's form and in
   Euclid's own form with angles;
-* it is independent of Hilbert's axioms of incidence, order and congruence.
+* it is independent of Hilbert's axioms of incidence, order, congruence and continuity.
 
 The proofs are complete: there is no `sorry`, and every theorem depends only on Lean's standard
 axioms `propext`, `Classical.choice` and `Quot.sound`.
@@ -13,17 +13,18 @@ axioms `propext`, `Classical.choice` and `Quot.sound`.
 ## Main result
 
 ```lean
-/-- The parallel postulate is independent of the axioms of a Hilbert plane. -/
-theorem HyperbolicPlane.playfair_independent :
-    (∃ (P L : Type) (H : Hilbert.HilbertPlane P L), H.Playfair) ∧
-      ∃ (P L : Type) (H : Hilbert.HilbertPlane P L), ¬ H.Playfair
+/-- The parallel postulate is independent of Hilbert's axioms, with continuity. -/
+theorem HyperbolicPlane.playfair_independent_continuous :
+    (∃ (P L : Type) (H : Hilbert.HilbertPlane P L), H.Archimedes ∧ H.Dedekind ∧ H.Playfair) ∧
+      ∃ (P L : Type) (H : Hilbert.HilbertPlane P L), H.Archimedes ∧ H.Dedekind ∧ ¬ H.Playfair
 ```
 
 `Hilbert.HilbertPlane P L` bundles points `P`, lines `L`, betweenness, and congruence of
 segments and of angles, with Hilbert's axioms of incidence (I1–I3), order (B1–B4, with Pasch's
-axiom as B4) and congruence (C1–C6). `Playfair` states that through a point off a line there is
-at most one parallel. The two witnesses are `euclidPlane`, where Playfair's axiom holds, and
-`kleinPlane`, where it fails.
+axiom as B4) and congruence (C1–C6). `Archimedes` and `Dedekind` are the axioms of continuity,
+and `Playfair` states that through a point off a line there is at most one parallel. The two
+witnesses are `euclidPlane`, where Playfair's axiom holds, and `kleinPlane`, where it fails.
+The same result without continuity is `HyperbolicPlane.playfair_independent`.
 
 ## Other results
 
@@ -41,6 +42,7 @@ at most one parallel. The two witnesses are `euclidPlane`, where Playfair's axio
 | Hyperbolic law of cosines | `HyperbolicPlane.law_of_cosines` | `HyperbolicPlane.lean` |
 | Hilbert's congruence axioms C1–C6 in the Klein disc | `HyperbolicPlane.segment_construction`, `segment_addition`, `angle_construction`, `side_angle_side`, … | `HyperbolicPlane.lean` |
 | The Euclidean and Klein planes as Hilbert planes | `HyperbolicPlane.model`, `euclidPlane`, `kleinPlane` | `HilbertPlane.lean` |
+| Archimedes' axiom and Dedekind's axiom in both planes | `HyperbolicPlane.model_archimedes`, `HyperbolicPlane.model_dedekind` | `HilbertPlane.lean` |
 
 Each file begins with a header that lists its contents and states what it assumes and what it
 does not formalise.
@@ -51,7 +53,7 @@ does not formalise.
 |---|---|---|
 | `ThreeDimensions.lean` | The plane of pairs of numbers, and the parallel postulate there | — |
 | `HyperbolicPlane.lean` | The plane under a curvature bound `κ`; for `κ < 0` the Klein disc, its metric, curvature, distance, angles and congruence | — |
-| `HilbertPlane.lean` | The axioms of a Hilbert plane, the two models, and the independence theorem | `HyperbolicPlane` |
+| `HilbertPlane.lean` | The axioms of a Hilbert plane and of continuity, the two models, and the independence theorems | `HyperbolicPlane` |
 
 Every file is a module at the top level of the project.
 
@@ -77,16 +79,18 @@ about a minute on a laptop.
 To confirm the axioms a theorem uses, add for example
 
 ```lean
-#print axioms HyperbolicPlane.playfair_independent
+#print axioms HyperbolicPlane.playfair_independent_continuous
 ```
 
 at the end of `HilbertPlane.lean`.
 
 ## Scope and limitations
 
-* **Continuity is not included.** The structure contains Hilbert's axioms of incidence, order
-  and congruence (a *Hilbert plane* in Hartshorne's terminology). The axioms of continuity are
-  not part of it, so the independence is proved relative to these axioms only.
+* **Dedekind's axiom stands in for Hilbert's axiom of completeness.** Hilbert's axiom V.2 says
+  that the points of a line cannot be extended while the other axioms still hold, which is a
+  statement about all models rather than an axiom inside one plane. The continuity axioms here
+  are Archimedes' axiom (Hilbert's V.1) and Dedekind's axiom, as in Hartshorne. Their relation
+  to Hilbert's V.2 is not formalised.
 * **B4 is Pasch's axiom**, as in Hilbert. Hartshorne uses plane separation instead; the two are
   equivalent given the other axioms, which is not formalised here.
 * **Curvature and distance are defined in coordinates.** Gaussian curvature is Brioschi's

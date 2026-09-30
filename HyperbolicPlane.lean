@@ -99,7 +99,7 @@ Theorems with no label. They are small facts, and most of them carry steps of th
 | a sum of two squares | `sq_add_sq_pos` |
 | the algebra of the motions, with the divisions taken out | `cross_aux`, `apart_aux`, `apart_aux'`, `kleinInner_aux`, `kleinAngle_aux`, `kleinMetric_aux` |
 | derivatives and determinants | `hasDerivAt_cubic`, `hasDerivAt_div_sq`, `hasDerivAt_div_cube`, `det_three` |
-| steps of the proofs of congruence | `apart_eq_kleinInner`, `one_add_dot_pos`, `kleinInner_gram`, `kleinAngle_eq_arccos_cos`, `apart_ray`, `apart_ray_lt`, `sin_kleinAngle_pos` |
+| steps of the proofs of congruence | `apart_eq_kleinInner`, `one_add_dot_pos`, `kleinInner_gram`, `kleinAngle_eq_arccos_cos`, `apart_ray`, `apart_ray_lt`, `exists_onRay_apart`, `sin_kleinAngle_pos` |
 
 ## What is assumed, and what is not formalised
 
@@ -3289,12 +3289,11 @@ theorem apart_ray_lt {κ : ℝ} (hκ : κ < 0) {O D : ℝ × ℝ} (hO : O ∈ pl
     (add_pos (mul_pos hs h2) (mul_pos (hs.trans hst) h1)))
   linarith
 
-/-- **Theorem H19, C1: construction of segments.** On a ray from `O` there is one point, and
-only one, whose distance from `O` is the length of a given segment. -/
-theorem segment_construction {κ : ℝ} (hκ : κ < 0) {A B O D : ℝ × ℝ} (hA : A ∈ plane κ)
-    (hB : B ∈ plane κ) (hO : O ∈ plane κ) (hAB : A ≠ B) (hOD : O ≠ D) :
-    ∃! X, X ∈ plane κ ∧ OnRay O D X ∧ kleinDist κ A B = kleinDist κ O X := by
-  have hα : 0 < apart κ A B := apart_pos hA hB hAB
+/-- **On a ray from a point of the plane, `apart` from the origin takes every positive value.**
+Under a negative bound. -/
+theorem exists_onRay_apart {κ : ℝ} (hκ : κ < 0) {O D : ℝ × ℝ} (hO : O ∈ plane κ) (hOD : O ≠ D)
+    {α : ℝ} (hα : 0 < α) :
+    ∃ t : ℝ, 0 < t ∧ (Dim.mk O D).pt t ∈ plane κ ∧ apart κ O ((Dim.mk O D).pt t) = α := by
   have hG := kleinInner_self_pos hO hOD.symm
   have hBO := mem_plane.mp hO
   have hnk : 0 < -κ := neg_pos.mpr hκ
@@ -3334,14 +3333,14 @@ theorem segment_construction {κ : ℝ} (hκ : κ < 0) {A B O D : ℝ × ℝ} (h
     have e : κ * (1 / (-κ)) = -1 := by
       rw [mul_one_div, div_neg, div_self hκ.ne]
     linarith
-  set f : ℝ → ℝ := fun t => t ^ 2 * kleinInner κ O D D - apart κ A B
+  set f : ℝ → ℝ := fun t => t ^ 2 * kleinInner κ O D D - α
     * (1 + κ * (O.1 ^ 2 + O.2 ^ 2))
     * (1 + κ * (((Dim.mk O D).pt t).1 ^ 2 + ((Dim.mk O D).pt t).2 ^ 2)) with hf
   have hfc : Continuous f := by
     simp only [hf, Dim.pt]
     fun_prop
   have hf0 : f 0 < 0 := by
-    have e : f 0 = -(apart κ A B * (1 + κ * (O.1 ^ 2 + O.2 ^ 2)) ^ 2) := by
+    have e : f 0 = -(α * (1 + κ * (O.1 ^ 2 + O.2 ^ 2)) ^ 2) := by
       simp only [hf, Dim.pt]
       ring
     rw [e]
@@ -3364,9 +3363,17 @@ theorem segment_construction {κ : ℝ} (hκ : κ < 0) {A B O D : ℝ × ℝ} (h
     have := mul_nonpos_of_nonneg_of_nonpos (mul_pos hα hBO).le h
     nlinarith [mul_pos (pow_pos ht0 2) hG]
   have hXt : (Dim.mk O D).pt t ∈ plane κ := mem_plane.mpr hBt
-  have hap : apart κ O ((Dim.mk O D).pt t) = apart κ A B := by
+  have hap : apart κ O ((Dim.mk O D).pt t) = α := by
     rw [apart_ray, div_eq_iff (mul_pos hBO hBt).ne']
     linear_combination hft
+  exact ⟨t, ht0, hXt, hap⟩
+
+/-- **Theorem H19, C1: construction of segments.** On a ray from `O` there is one point, and
+only one, whose distance from `O` is the length of a given segment. -/
+theorem segment_construction {κ : ℝ} (hκ : κ < 0) {A B O D : ℝ × ℝ} (hA : A ∈ plane κ)
+    (hB : B ∈ plane κ) (hO : O ∈ plane κ) (hAB : A ≠ B) (hOD : O ≠ D) :
+    ∃! X, X ∈ plane κ ∧ OnRay O D X ∧ kleinDist κ A B = kleinDist κ O X := by
+  obtain ⟨t, ht0, hXt, hap⟩ := exists_onRay_apart hκ hO hOD (apart_pos hA hB hAB)
   refine ⟨(Dim.mk O D).pt t, ⟨hXt, ⟨t, ht0, rfl⟩, ?_⟩, ?_⟩
   · rw [kleinDist_eq_arsinh hκ hA hB, kleinDist_eq_arsinh hκ hO hXt, hap]
   · rintro Y ⟨hY, ⟨s, hs, rfl⟩, hYd⟩
