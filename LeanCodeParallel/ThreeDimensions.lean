@@ -31,24 +31,31 @@ uses only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
 
 ## Contents
 
-| Statement | Lean |
-|---|---|
-| Lemma E1, read as numbers `a1 = c0` collapses `a` | `collapse` |
-| a dimension, its direction, its points, its sides | `Dim`, `Dim.dir`, `Dim.pt`, `Dim.points`, `Dim.side` |
-| the cross product | `cross` |
-| the figure, with the two constraints | `Figure`, `Figure.a0_eq_b0`, `Figure.a1_eq_c0` |
-| Lemma E2, three independent dimensions | `skew_of_independent` |
-| Example E3, whole numbers and fractions | `wholeFigure_hypotheses`, `whole_numbers_never_meet`, `exampleFigure_meets` |
-| Theorem E4, the postulate with no angle | `Figure.meet_eq`, `fifth_postulate`, and `fifth_postulate_right` on the right of `a` |
-| Theorem E5, the two other cases | `Figure.never_meet_of_two_right_angles`, `meet_on_the_other_side`, `meet_on_the_other_side_right` |
-| Theorem E6, exactly when | `Figure.meet_unique`, `meet_on_side_iff`, `meet_on_side_iff_right` |
-| Theorem E7, Playfair | `meet_of_cross_ne_zero`, `not_meet_of_cross_eq_zero`, `playfair_exists`, `playfair_unique`, `playfair_unique_through` |
-| a dimension with its zero moved | `Dim.rebase`, `Dim.rebase_points`, `meet_iff_common_point` |
-| Lemma E8, the sine of the two angles together | `sin_angle_sum`, `angle_pos_and_lt_pi` |
-| Theorem E9, the postulate as Euclid states it | `euclid_fifth_either_side`, `never_meet_either_side`, `other_side_either_side`, `meet_iff_angles_either_side` |
-| the same on the left of `a` only | `euclid_fifth_general`, `never_meet_general`, `other_side_general`, `meet_on_side_iff_angles` |
-| the figure with `a` run backwards | `Figure.reverse`, `Figure.reverse_side`, `Figure.reverse_angles` |
-| Proposition E10, the figure with given angles | `angleFigure`, `angle_at_a0`, `angle_at_a1`, `angleFigure_cross`, `law_of_sines`, `euclid_fifth`, `never_meet_of_sum_eq_pi` |
+* Lemma E1, read as numbers `a1 = c0` collapses `a`: `collapse`
+* a dimension, its direction, its points, its sides: `Dim`, `Dim.dir`, `Dim.pt`, `Dim.points`,
+  `Dim.side`
+* the cross product: `cross`
+* the figure, with the two constraints: `Figure`, `Figure.a0_eq_b0`, `Figure.a1_eq_c0`
+* Lemma E2, three independent dimensions: `skew_of_independent`
+* Example E3, whole numbers and fractions: `wholeFigure_hypotheses`, `whole_numbers_never_meet`,
+  `exampleFigure_meets`
+* Theorem E4, the postulate with no angle: `Figure.meet_eq`, `fifth_postulate`, and
+  `fifth_postulate_right` on the right of `a`
+* Theorem E5, the two other cases: `Figure.never_meet_of_two_right_angles`,
+  `meet_on_the_other_side`, `meet_on_the_other_side_right`
+* Theorem E6, exactly when: `Figure.meet_unique`, `meet_on_side_iff`, `meet_on_side_iff_right`
+* Theorem E7, Playfair: `meet_of_cross_ne_zero`, `not_meet_of_cross_eq_zero`, `playfair_exists`,
+  `playfair_unique`, `playfair_unique_through`
+* a dimension with its zero moved: `Dim.rebase`, `Dim.rebase_points`, `meet_iff_common_point`
+* Lemma E8, the sine of the two angles together: `sin_angle_sum`, `angle_pos_and_lt_pi`
+* Theorem E9, the postulate as Euclid states it: `euclid_fifth_either_side`,
+  `never_meet_either_side`, `other_side_either_side`, `meet_iff_angles_either_side`
+* the same on the left of `a` only: `euclid_fifth_general`, `never_meet_general`,
+  `other_side_general`, `meet_on_side_iff_angles`
+* the figure with `a` run backwards: `Figure.reverse`, `Figure.reverse_side`,
+  `Figure.reverse_angles`
+* Proposition E10, the figure with given angles: `angleFigure`, `angle_at_a0`, `angle_at_a1`,
+  `angleFigure_cross`, `law_of_sines`, `euclid_fifth`, `never_meet_of_sum_eq_pi`
 
 ## What is assumed, and what is not formalised
 
@@ -60,9 +67,6 @@ uses only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
 * **That this plane meets Euclid's other postulates** is not formalised.
 * **That the plane is built from dimensions** is a reading, and is not in Lean. In this file
   the plane is `K × K`, and a dimension is any line in it with a zero and a 1.
-* **The numbers with two slots are not in this file.** A dimension is a line with a zero and
-  a 1. The numbers with two slots, and the constraints C1, C2 and C3, are in
-  `FourDimensions.lean`.
 
 -/
 
@@ -928,7 +932,7 @@ theorem Figure.reverse_angles (F : Figure ℝ) :
         + angle (toE (-F.reverse.a.dir)) (toE F.reverse.c.dir)
       = angle (toE F.a.dir) (toE F.b.dir) + angle (toE (-F.a.dir)) (toE F.c.dir) := by
   rw [F.reverse_dir, neg_neg]
-  show angle (toE (-F.a.dir)) (toE F.c.dir) + angle (toE F.a.dir) (toE F.b.dir)
+  change angle (toE (-F.a.dir)) (toE F.c.dir) + angle (toE F.a.dir) (toE F.b.dir)
     = angle (toE F.a.dir) (toE F.b.dir) + angle (toE (-F.a.dir)) (toE F.c.dir)
   ring
 

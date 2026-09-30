@@ -3,7 +3,7 @@ Copyright (c) 2026 Richard Sutton. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Richard Sutton
 -/
-import HyperbolicPlane
+import LeanCodeParallel.HyperbolicPlane
 
 /-!
 # Hilbert planes, and the independence of the parallel postulate
@@ -26,21 +26,28 @@ Checked with Lean `v4.35.0-rc3` and Mathlib at the matching tag. It imports
 
 ## Contents
 
-| What | Lean |
-|---|---|
-| the axioms | `Hilbert.HilbertPlane`, `Hilbert.Collinear`, `Hilbert.OnRay`, `Hilbert.SameSide` |
-| Playfair's axiom | `HilbertPlane.Parallel`, `HilbertPlane.Playfair` |
-| rays, and the order of three points on a line | `onRay_of_between`, `between_of_onRay`, `between_trichotomy`, `ne_of_side_ne_zero`, `IsLine.subset_plane`, `IsLine.eq_through` |
-| Euclid's plane, with `apart` | `mem_plane_zero`, `apart_zero_nonneg`, `apart_zero_eq_kleinInner`, `euclid_segment_construction`, `euclid_sqrt_apart_add`, `euclid_segment_addition`, `euclid_law_of_cosines`, `euclid_sas` |
-| C1, C3 and C6 with `apart`, under a bound that is not positive | `apart_eq_iff_kleinDist_eq`, `segment_construction_apart`, `segment_addition_apart`, `sas_apart` |
-| the model | `Pt`, `Ln`, `mlies`, `mbtw`, `msegCong`, `mangCong`, `lineThrough`, `model_I1` to `model_I3`, `model_B1` to `model_B4`, `model_onRay`, `model_onRay_of`, `model_C1`, `model_side_ne_zero`, `model_sameSide_iff`, `model_C4`, `model_C6`, `model` |
-| the two planes, and the independence | `euclidPlane`, `kleinPlane`, `euclidPlane_playfair`, `kleinPlane_not_playfair`, `playfair_independent`, `playfair_not_consequence`, `not_playfair_not_consequence` |
-| the axioms of continuity | `HilbertPlane.Archimedes`, `HilbertPlane.Dedekind` |
-| the order of the numbers of a dimension | `StrictBetween`, `between_pt_of_strictBetween`, `strictBetween_of_between_pt`, `pt_mem_plane_of_le` |
-| a cut of an interval of real numbers | `cut_point_ordered`, `cut_point` |
-| Dedekind's axiom in the plane of a bound | `model_dedekind` |
-| Archimedes' axiom in the plane of a bound | `archimedes_of_length`, `model_archimedes` |
-| the independence, with continuity | `playfair_independent_continuous` |
+* the axioms: `Hilbert.HilbertPlane`, `Hilbert.Collinear`, `Hilbert.OnRay`, `Hilbert.SameSide`
+* Playfair's axiom: `HilbertPlane.Parallel`, `HilbertPlane.Playfair`
+* rays, and the order of three points on a line: `onRay_of_between`, `between_of_onRay`,
+  `between_trichotomy`, `ne_of_side_ne_zero`, `IsLine.subset_plane`, `IsLine.eq_through`
+* Euclid's plane, with `apart`: `mem_plane_zero`, `apart_zero_nonneg`, `apart_zero_eq_kleinInner`,
+  `euclid_segment_construction`, `euclid_sqrt_apart_add`, `euclid_segment_addition`,
+  `euclid_law_of_cosines`, `euclid_sas`
+* C1, C3 and C6 with `apart`, under a bound that is not positive: `apart_eq_iff_kleinDist_eq`,
+  `segment_construction_apart`, `segment_addition_apart`, `sas_apart`
+* the model: `Pt`, `Ln`, `mlies`, `mbtw`, `msegCong`, `mangCong`, `lineThrough`, `model_I1` to
+  `model_I3`, `model_B1` to `model_B4`, `model_onRay`, `model_onRay_of`, `model_C1`,
+  `model_side_ne_zero`, `model_sameSide_iff`, `model_C4`, `model_C6`, `model`
+* the two planes, and the independence: `euclidPlane`, `kleinPlane`, `euclidPlane_playfair`,
+  `kleinPlane_not_playfair`, `playfair_independent`, `playfair_not_consequence`,
+  `not_playfair_not_consequence`
+* the axioms of continuity: `HilbertPlane.Archimedes`, `HilbertPlane.Dedekind`
+* the order of the numbers of a dimension: `StrictBetween`, `between_pt_of_strictBetween`,
+  `strictBetween_of_between_pt`, `pt_mem_plane_of_le`
+* a cut of an interval of real numbers: `cut_point_ordered`, `cut_point`
+* Dedekind's axiom in the plane of a bound: `model_dedekind`
+* Archimedes' axiom in the plane of a bound: `archimedes_of_length`, `model_archimedes`
+* the independence, with continuity: `playfair_independent_continuous`
 
 ## What is assumed, and what is not formalised
 
@@ -514,14 +521,14 @@ theorem model_B4 (κ : ℝ) : ∀ (A B C : Pt κ) (l : Ln κ), ¬ Collinear (mli
   intro A B C l _ hA hB hC ⟨D, hD, hAD⟩
   obtain ⟨M, hM, hl, -⟩ := l.2
   have hnot : ∀ X : Pt κ, ¬ mlies κ X l → X.1 ∉ M.points := fun X hX hm =>
-    hX (by show X.1 ∈ l.1; rw [hl]; exact ⟨hm, X.2⟩)
+    hX (by change X.1 ∈ l.1; rw [hl]; exact ⟨hm, X.2⟩)
   have hDm : D.1 ∈ M.points := by
     have h : D.1 ∈ l.1 := hD
     rw [hl] at h
     exact h.1
   obtain ⟨Y, hYM, hY, hYb⟩ :=
     pasch κ A.2 B.2 C.2 M hM (hnot A hA) (hnot B hB) (hnot C hC) hDm hAD
-  exact ⟨⟨Y, hY⟩, by show Y ∈ l.1; rw [hl]; exact ⟨hYM, hY⟩, hYb⟩
+  exact ⟨⟨Y, hY⟩, by change Y ∈ l.1; rw [hl]; exact ⟨hYM, hY⟩, hYb⟩
 
 /-- A point on a ray, as Hilbert has it, in the plane of a bound. -/
 theorem model_onRay {κ : ℝ} {O A X : Pt κ} (h : Hilbert.OnRay (mbtw κ) O A X) :
@@ -555,15 +562,15 @@ theorem model_side_ne_zero {κ : ℝ} {A B C : Pt κ} (h : ¬ Collinear (mlies �
         simp at this
       refine ⟨⟨(Dim.mk A.1 (A.1.1 + 1, A.1.2)).points ∩ plane κ,
         ⟨_, hne, rfl, A.1, (Dim.mk _ _).zero_mem, A.2⟩⟩, ⟨(Dim.mk _ _).zero_mem, A.2⟩, ?_, ?_⟩
-      · show B.1 ∈ _
+      · change B.1 ∈ _
         rw [hBA]
         exact ⟨(Dim.mk _ _).zero_mem, A.2⟩
-      · show C.1 ∈ _
+      · change C.1 ∈ _
         rw [← hAC]
         exact ⟨(Dim.mk _ _).zero_mem, A.2⟩
     · refine ⟨lineThrough A C hAC, lies_lineThrough_left A C hAC, ?_,
         lies_lineThrough_right A C hAC⟩
-      show B.1 ∈ _
+      change B.1 ∈ _
       rw [hBA]
       exact ⟨(Dim.mk _ _).zero_mem, A.2⟩
   · exact ⟨lineThrough B A hBA, lies_lineThrough_right B A hBA, lies_lineThrough_left B A hBA,
@@ -576,7 +583,7 @@ theorem model_sameSide_iff {κ : ℝ} {D F : Pt κ} {l : Ln κ} (hD : mlies κ D
   have hl := IsLine.eq_through l.2 hD hF hDF
   have hmem : ∀ X : Pt κ, mlies κ X l ↔ (Dim.mk D.1 F.1).side X.1 = 0 := by
     intro X
-    show X.1 ∈ l.1 ↔ _
+    change X.1 ∈ l.1 ↔ _
     rw [hl]
     constructor
     · rintro ⟨h, -⟩
@@ -587,7 +594,7 @@ theorem model_sameSide_iff {κ : ℝ} {D F : Pt κ} {l : Ln κ} (hD : mlies κ D
   · rintro ⟨hE, hG, hno⟩
     have hE' : (Dim.mk D.1 F.1).side E.1 ≠ 0 := fun h => hE ((hmem E).mpr h)
     have hG' : (Dim.mk D.1 F.1).side G.1 ≠ 0 := fun h => hG ((hmem G).mpr h)
-    show 0 < _ * _
+    change 0 < _ * _
     rcases lt_trichotomy ((Dim.mk D.1 F.1).side E.1 * (Dim.mk D.1 F.1).side G.1) 0 with h | h | h
     · obtain ⟨Y, hYM, hY, hYb⟩ := crosses κ (Dim.mk D.1 F.1) hDF E.2 G.2 h
       exact absurd ⟨⟨Y, hY⟩, (hmem ⟨Y, hY⟩).mpr (Dim.side_eq_zero_of_mem _ hYM), hYb⟩ hno
@@ -626,14 +633,14 @@ theorem model_C4 (κ : ℝ) : ∀ (A B C D F G : Pt κ) (l : Ln κ), ¬ Collinea
   have hGs : (Dim.mk D.1 F.1).side G.1 ≠ 0 := by
     intro h
     apply hG
-    show G.1 ∈ l.1
+    change G.1 ∈ l.1
     rw [hl]
     exact ⟨Dim.mem_points_of_side_eq_zero _ hDF' G.1 h, G.2⟩
   obtain ⟨hex, huniq⟩ := angle_construction B.2 D.2 (model_side_ne_zero hABC) hDF' hGs
   refine ⟨?_, ?_⟩
   · obtain ⟨E, hE, hs, ha⟩ := hex
     refine ⟨⟨E, hE⟩, (model_sameSide_iff hD hF hDF' ⟨E, hE⟩ G).mpr hs, ?_⟩
-    show kleinAngle κ B.1 A.1 C.1 = kleinAngle κ D.1 E F.1
+    change kleinAngle κ B.1 A.1 C.1 = kleinAngle κ D.1 E F.1
     rw [kleinAngle_comm κ D.1 E F.1, ha]
   · intro E E' hs ha hs' ha'
     have hDE : D.1 ≠ E.1 := by
@@ -870,7 +877,7 @@ theorem model_dedekind (κ : ℝ) (hκ : κ ≤ 0) : (model κ hκ).Dedekind := 
   obtain ⟨M, hM, hl, -⟩ := l.2
   have hlies : ∀ X : Pt κ, (model κ hκ).lies X l ↔ X.1 ∈ M.points := by
     intro X
-    show X.1 ∈ l.1 ↔ _
+    change X.1 ∈ l.1 ↔ _
     rw [hl]
     exact ⟨fun h => h.1, fun h => ⟨h, X.2⟩⟩
   let I : Set ℝ := {t | M.pt t ∈ plane κ}
@@ -954,16 +961,16 @@ theorem archimedes_of_length {κ : ℝ} (hκ : κ ≤ 0) (len : ℝ × ℝ → �
     | i + 1 => u i
   have hσm : ∀ i, (Dim.mk A.1 B.1).pt (σ i) ∈ plane κ := by
     rintro (_ | i)
-    · show (Dim.mk A.1 B.1).pt 0 ∈ plane κ
+    · change (Dim.mk A.1 B.1).pt 0 ∈ plane κ
       rw [hpt0]
       exact A.2
     · exact hum i
   have hσl : ∀ i : ℕ, len A.1 ((Dim.mk A.1 B.1).pt (σ i)) = (i : ℝ) * len C.1 D.1 := by
     rintro (_ | i)
-    · show len A.1 ((Dim.mk A.1 B.1).pt 0) = _
+    · change len A.1 ((Dim.mk A.1 B.1).pt 0) = _
       rw [hpt0, hzero A.2]
       simp
-    · show len A.1 ((Dim.mk A.1 B.1).pt (u i)) = _
+    · change len A.1 ((Dim.mk A.1 B.1).pt (u i)) = _
       rw [hul i]
       push_cast
       ring
@@ -1000,11 +1007,11 @@ theorem archimedes_of_length {κ : ℝ} (hκ : κ ≤ 0) (len : ℝ × ℝ → �
   obtain ⟨n, hn⟩ := exists_nat_gt (len A.1 B.1 / len C.1 D.1)
   refine ⟨n, X, Subtype.ext hpt0, ?_, ?_, ?_, ?_⟩
   · intro i _
-    show apart κ C.1 D.1 = apart κ ((Dim.mk A.1 B.1).pt (σ i)) ((Dim.mk A.1 B.1).pt (σ (i + 1)))
+    change apart κ C.1 D.1 = apart κ ((Dim.mk A.1 B.1).pt (σ i)) ((Dim.mk A.1 B.1).pt (σ (i + 1)))
     rw [hcong C.2 D.2 (hσm i) (hσm (i + 1))]
     rcases Nat.eq_zero_or_pos i with rfl | hi
     · have h1 := hσl 1
-      show len C.1 D.1 = len ((Dim.mk A.1 B.1).pt 0) ((Dim.mk A.1 B.1).pt (σ 1))
+      change len C.1 D.1 = len ((Dim.mk A.1 B.1).pt 0) ((Dim.mk A.1 B.1).pt (σ 1))
       rw [hpt0, h1]
       simp
     · have hb := between_pt_of_strictBetween (Dim.mk A.1 B.1) hM
@@ -1082,7 +1089,7 @@ theorem model_archimedes (κ : ℝ) (hκ : κ ≤ 0) : (model κ hκ).Archimedes
         rw [apart_zero_bound]
         simp only [Dim.pt]
         ring
-      show √(apart 0 O _) = d
+      change √(apart 0 O _) = d
       rw [e, Real.sqrt_mul (sq_nonneg _), Real.sqrt_sq (div_pos hd hsV).le]
       field_simp
 

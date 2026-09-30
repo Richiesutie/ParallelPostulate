@@ -55,51 +55,105 @@ uses only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
 
 ## Contents
 
-| Statement | Lean |
-|---|---|
-| a dimension, its direction, its pairs, its sides | `Dim`, `Dim.dir`, `Dim.pt`, `Dim.points`, `Dim.side`, `cross` |
-| a dimension with its zero moved | `Dim.rebase` |
-| the figure, with the two constraints | `Figure`, `Figure.a0_eq_b0`, `Figure.a1_eq_c0` |
-| a plane | any `Set (K × K)` |
-| a line of a plane, a plane open along the dimensions | `IsLine`, `OpenAlong` |
-| a line through `P` that does not meet `L` | `Misses` |
-| Euclid's line, the line toward a number of `L` | `euclid`, `toward` |
-| Theorem H1, the lines through `P` that do not meet `L` | `miss_iff`, `misses_iff`, `euclid_misses`, `toward_misses`, `one_parallel_of_all_within` |
-| Theorem H2, one parallel exactly when | `toward_injective`, `euclid_ne_toward`, `one_parallel_iff`, `two_parallels_of_beyond`, `infinitely_many_parallels` |
-| the choice: the bound | `plane`, `mem_plane` |
-| Proposition H3, the plane of a bound | `plane_eq_univ`, `plane_zero`, `plane_stretch`, `plane_beyond`, `plane_beyond_infinite`, `zero_mem_plane`, `plane_mono`, `mem_plane_scale`, `plane_open_forward`, `plane_openAlong`, `plane_convex`, `bound_along`, `quad_pos`, `quad_nonpos` |
-| Proposition H4, points, lines and order | `line_through`, `IsLine.two_points`, `IsLine.exists_within`, `exists_three_points`, `exists_line_and_point`, `plane_exists_line_and_point`, `Between`, `Between.symm`, `Between.mem`, `Between.ne`, `Between.not_left`, `Between.not_right`, `exists_beyond`, `crosses`, `pasch` |
-| Theorem H5, the parallels under a negative bound | `hyperbolic_parallel_property`, `hyperbolic_two_parallels`, `hyperbolic_parallels` |
-| Theorem H6, the plane of `ThreeDimensions.lean` from the same choice | `euclid_one_parallel`, `fifth_postulate_of_nonneg_bound`, `Figure.meet_eq` |
-| Theorem H7, exactly when | `one_parallel_iff_bound` |
-| Proposition H8, steps | `step`, `step_zero_bound`, `step_comm`, `step_zero_right`, `step_neg`, `within_zero`, `within_neg`, `step_den_pos`, `step_within`, `step_assoc`, `step_bound`, `step_edge`, `step_edge_self` |
-| Theorem H9, the motion along the first axis | `shift`, `shift_zero_bound`, `shift_centre`, `shift_axis`, `shift_den_pos`, `shift_bound`, `shift_mem_plane`, `shift_shift_neg`, `shift_neg_shift`, `shift_bijOn`, `shift_cross`, `shift_isLine`, `shift_keeps_left`, `shift_apart`, `shift_apart_plane` |
-| Theorem H9, turning | `rot`, `rot_rot_neg`, `rot_bound`, `rot_mem_plane`, `rot_bijOn`, `rot_pt`, `rot_isLine`, `rot_cross`, `rot_apart` |
-| Theorem H9, how far apart | `apart`, `apart_zero_bound`, `apart_self`, `apart_comm`, `apart_centre`, `apart_pos` |
-| Example H10, the figure of `ThreeDimensions.lean` under the bound `-1` | `leaningFigure`, `leaningFigure_within`, `leaningFigure_values`, `leaningFigure_hypotheses`, `leaningFigure_numbers`, `leaningFigure_meets_beyond`, `leaningFigure_never_meets`, `leaningFigure_angles` |
-| Proposition H11, the pairing of three sides | `ell`, `pairingAt`, `pairing`, `pairing_eq`, `pairingAt_zero`, `pairingAt_sides`, `pairingAt_comm`, `pairing_self`, `pairing_ones`, `pairing_squares`, `pairingAt_scale`, `turn`, `swap`, `pairingAt_turn`, `pairingAt_swap` |
-| the list with the sum 1 over a pair | `lift`, `ell_lift`, `pairingAt_lift`, `pairing_lift`, `lift_turn`, `lift_swap` |
-| the points of three sides | `pairingAt_zero_pos_iff`, `ell_ne_zero_of_pairingAt_pos`, `exists_point_of_pairingAt_pos` |
-| Theorem H12, the plane of three sides | `threeSidedAt`, `threeSided`, `mem_threeSidedAt`, `threeSidedAt_eq_univ`, `threeSidedAt_one_parallel`, `threeSidedAt_parallels`, `threeSidedAt_parallel_property`, `threeSided_parallel_property`, `threeSidedAt_exists_line_and_point`, `centre_mem_threeSidedAt`, `threeSidedAt_eq_empty`, `threeSidedAt_bound`, `ones_on_the_edge`, `mem_threeSided_of_pos`, `threeSidedAt_turn`, `threeSidedAt_swap`, `threeSidedAt_openAlong`, `threeSidedAt_beyond_infinite`, `threeSided_along` |
-| Theorem H13, the motions keep angles | `kleinInner`, `kleinInner_zero_bound`, `kleinInner_centre`, `kleinInner_self_pos`, `shift_kleinInner`, `rot_kleinInner`, `kleinAngle`, `kleinAngle_zero_bound`, `kleinAngle_centre`, `shift_kleinAngle`, `rot_kleinAngle` |
-| Theorem H14, Euclid's fifth postulate fails under the bound `-1` | `EuclidFifth`, `realLeaningFigure`, `realLeaningFigure_within`, `realLeaningFigure_sides`, `realLeaningFigure_angle_a0`, `realLeaningFigure_angle_a1`, `realLeaningFigure_angle_a1_lt`, `realLeaningFigure_angles`, `realLeaningFigure_never_meets`, `not_euclidFifth` |
-| Theorem H15, the motions take every point to `(0, 0)`, and the angle they keep | `exists_motion_to_centre`, `kleinAngle_unique` |
-| Theorem H16, Klein's metric, and the motions keep it | `kleinMetric`, `kleinMetric_zero_bound`, `kleinMetric_sub`, `kleinMetric_pos`, `shiftDeriv`, `shift_kleinMetric`, `rot_kleinMetric`, `shift_differentiableAt`, `shift_hasLineDerivAt`, `fderiv_shift`, `fderiv_rot`, `shift_kleinMetric_fderiv`, `rot_kleinMetric_fderiv`, `kleinAngle_eq_metric` |
-| Theorem H17, the curvature of Klein's metric is `κ` | `partialX`, `partialY`, `gaussCurvature`, `kleinE`, `kleinF`, `kleinG`, `kleinMetric_coords`, `kleinMetric_curvature`, `halfPlane_curvature` |
-| Theorem H18, Klein's distance, and `apart` as a function of it | `IsKleinPath`, `kleinLength`, `kleinDist`, `kleinLength_nonneg`, `segment_isKleinPath`, `kleinDist_nonempty`, `kleinDist_bddBelow`, `kleinLength_integrand_continuousOn`, `isKleinPath_map`, `kleinDist_map_le`, `shift_contDiffOn`, `shift_kleinDist`, `rot_kleinDist`, `axisDist`, `axisDist_zero`, `hasDerivAt_axisDist`, `axis_le_metric`, `axisDist_sub_le_kleinLength`, `axis_isKleinPath`, `axis_kleinLength`, `kleinDist_axis`, `exists_rot_to_axis`, `kleinDist_eq_arsinh`, `apart_eq_sinh_kleinDist` |
-| Theorem H19, Hilbert's axioms of congruence | `OnRay`, `SameSide`, `segment_construction` (C1), `segment_congruence_trans` (C2), `segment_addition` (C3), `angle_construction` (C4), `angle_congruence_trans` (C5), `side_angle_side` (C6), `kleinDist_comm`, `kleinAngle_comm`, `kleinAngle_onRay`, `kleinDist_nonneg`, `kleinDist_pos`, `sinh_kleinDist`, `cosh_kleinDist`, `cos_kleinAngle`, `law_of_cosines`, `kleinDist_add_of_between` |
+* a dimension, its direction, its pairs, its sides: `Dim`, `Dim.dir`, `Dim.pt`, `Dim.points`,
+  `Dim.side`, `cross`
+* a dimension with its zero moved: `Dim.rebase`
+* the figure, with the two constraints: `Figure`, `Figure.a0_eq_b0`, `Figure.a1_eq_c0`
+* a plane: any `Set (K × K)`
+* a line of a plane, a plane open along the dimensions: `IsLine`, `OpenAlong`
+* a line through `P` that does not meet `L`: `Misses`
+* Euclid's line, the line toward a number of `L`: `euclid`, `toward`
+* Theorem H1, the lines through `P` that do not meet `L`: `miss_iff`, `misses_iff`, `euclid_misses`,
+  `toward_misses`, `one_parallel_of_all_within`
+* Theorem H2, one parallel exactly when: `toward_injective`, `euclid_ne_toward`, `one_parallel_iff`,
+  `two_parallels_of_beyond`, `infinitely_many_parallels`
+* the choice, the bound: `plane`, `mem_plane`
+* Proposition H3, the plane of a bound: `plane_eq_univ`, `plane_zero`, `plane_stretch`,
+  `plane_beyond`, `plane_beyond_infinite`, `zero_mem_plane`, `plane_mono`, `mem_plane_scale`,
+  `plane_open_forward`, `plane_openAlong`, `plane_convex`, `bound_along`, `quad_pos`, `quad_nonpos`
+* Proposition H4, points, lines and order: `line_through`, `IsLine.two_points`,
+  `IsLine.exists_within`, `exists_three_points`, `exists_line_and_point`,
+  `plane_exists_line_and_point`, `Between`, `Between.symm`, `Between.mem`, `Between.ne`,
+  `Between.not_left`, `Between.not_right`, `exists_beyond`, `crosses`, `pasch`
+* Theorem H5, the parallels under a negative bound: `hyperbolic_parallel_property`,
+  `hyperbolic_two_parallels`, `hyperbolic_parallels`
+* Theorem H6, the plane of `ThreeDimensions.lean` from the same choice: `euclid_one_parallel`,
+  `fifth_postulate_of_nonneg_bound`, `Figure.meet_eq`
+* Theorem H7, exactly when: `one_parallel_iff_bound`
+* Proposition H8, steps: `step`, `step_zero_bound`, `step_comm`, `step_zero_right`, `step_neg`,
+  `within_zero`, `within_neg`, `step_den_pos`, `step_within`, `step_assoc`, `step_bound`,
+  `step_edge`, `step_edge_self`
+* Theorem H9, the motion along the first axis: `shift`, `shift_zero_bound`, `shift_centre`,
+  `shift_axis`, `shift_den_pos`, `shift_bound`, `shift_mem_plane`, `shift_shift_neg`,
+  `shift_neg_shift`, `shift_bijOn`, `shift_cross`, `shift_isLine`, `shift_keeps_left`,
+  `shift_apart`, `shift_apart_plane`
+* Theorem H9, turning: `rot`, `rot_rot_neg`, `rot_bound`, `rot_mem_plane`, `rot_bijOn`, `rot_pt`,
+  `rot_isLine`, `rot_cross`, `rot_apart`
+* Theorem H9, how far apart: `apart`, `apart_zero_bound`, `apart_self`, `apart_comm`,
+  `apart_centre`, `apart_pos`
+* Example H10, the figure of `ThreeDimensions.lean` under the bound `-1`: `leaningFigure`,
+  `leaningFigure_within`, `leaningFigure_values`, `leaningFigure_hypotheses`,
+  `leaningFigure_numbers`, `leaningFigure_meets_beyond`, `leaningFigure_never_meets`,
+  `leaningFigure_angles`
+* Proposition H11, the pairing of three sides: `ell`, `pairingAt`, `pairing`, `pairing_eq`,
+  `pairingAt_zero`, `pairingAt_sides`, `pairingAt_comm`, `pairing_self`, `pairing_ones`,
+  `pairing_squares`, `pairingAt_scale`, `turn`, `swap`, `pairingAt_turn`, `pairingAt_swap`
+* the list with the sum 1 over a pair: `lift`, `ell_lift`, `pairingAt_lift`, `pairing_lift`,
+  `lift_turn`, `lift_swap`
+* the points of three sides: `pairingAt_zero_pos_iff`, `ell_ne_zero_of_pairingAt_pos`,
+  `exists_point_of_pairingAt_pos`
+* Theorem H12, the plane of three sides: `threeSidedAt`, `threeSided`, `mem_threeSidedAt`,
+  `threeSidedAt_eq_univ`, `threeSidedAt_one_parallel`, `threeSidedAt_parallels`,
+  `threeSidedAt_parallel_property`, `threeSided_parallel_property`,
+  `threeSidedAt_exists_line_and_point`, `centre_mem_threeSidedAt`, `threeSidedAt_eq_empty`,
+  `threeSidedAt_bound`, `ones_on_the_edge`, `mem_threeSided_of_pos`, `threeSidedAt_turn`,
+  `threeSidedAt_swap`, `threeSidedAt_openAlong`, `threeSidedAt_beyond_infinite`, `threeSided_along`
+* Theorem H13, the motions keep angles: `kleinInner`, `kleinInner_zero_bound`, `kleinInner_centre`,
+  `kleinInner_self_pos`, `shift_kleinInner`, `rot_kleinInner`, `kleinAngle`,
+  `kleinAngle_zero_bound`, `kleinAngle_centre`, `shift_kleinAngle`, `rot_kleinAngle`
+* Theorem H14, Euclid's fifth postulate fails under the bound `-1`: `EuclidFifth`,
+  `realLeaningFigure`, `realLeaningFigure_within`, `realLeaningFigure_sides`,
+  `realLeaningFigure_angle_a0`, `realLeaningFigure_angle_a1`, `realLeaningFigure_angle_a1_lt`,
+  `realLeaningFigure_angles`, `realLeaningFigure_never_meets`, `not_euclidFifth`
+* Theorem H15, the motions take every point to `(0, 0)`, and the angle they keep:
+  `exists_motion_to_centre`, `kleinAngle_unique`
+* Theorem H16, Klein's metric, and the motions keep it: `kleinMetric`, `kleinMetric_zero_bound`,
+  `kleinMetric_sub`, `kleinMetric_pos`, `shiftDeriv`, `shift_kleinMetric`, `rot_kleinMetric`,
+  `shift_differentiableAt`, `shift_hasLineDerivAt`, `fderiv_shift`, `fderiv_rot`,
+  `shift_kleinMetric_fderiv`, `rot_kleinMetric_fderiv`, `kleinAngle_eq_metric`
+* Theorem H17, the curvature of Klein's metric is `κ`: `partialX`, `partialY`, `gaussCurvature`,
+  `kleinE`, `kleinF`, `kleinG`, `kleinMetric_coords`, `kleinMetric_curvature`, `halfPlane_curvature`
+* Theorem H18, Klein's distance, and `apart` as a function of it: `IsKleinPath`, `kleinLength`,
+  `kleinDist`, `kleinLength_nonneg`, `segment_isKleinPath`, `kleinDist_nonempty`,
+  `kleinDist_bddBelow`, `kleinLength_integrand_continuousOn`, `isKleinPath_map`, `kleinDist_map_le`,
+  `shift_contDiffOn`, `shift_kleinDist`, `rot_kleinDist`, `axisDist`, `axisDist_zero`,
+  `hasDerivAt_axisDist`, `axis_le_metric`, `axisDist_sub_le_kleinLength`, `axis_isKleinPath`,
+  `axis_kleinLength`, `kleinDist_axis`, `exists_rot_to_axis`, `kleinDist_eq_arsinh`,
+  `apart_eq_sinh_kleinDist`
+* Theorem H19, Hilbert's axioms of congruence: `OnRay`, `SameSide`, `segment_construction` (C1),
+  `segment_congruence_trans` (C2), `segment_addition` (C3), `angle_construction` (C4),
+  `angle_congruence_trans` (C5), `side_angle_side` (C6), `kleinDist_comm`, `kleinAngle_comm`,
+  `kleinAngle_onRay`, `kleinDist_nonneg`, `kleinDist_pos`, `sinh_kleinDist`, `cosh_kleinDist`,
+  `cos_kleinAngle`, `law_of_cosines`, `kleinDist_add_of_between`
 
 Theorems with no label. They are small facts, and most of them carry steps of the proofs.
 
-| What | Lean |
-|---|---|
-| small facts about a dimension | `Dim.pt_zero`, `Dim.pt_one`, `Dim.zero_mem`, `Dim.one_mem`, `Dim.dir_ne_zero`, `Dim.rebase_zero_ne_one`, `Dim.cross_rebase`, `Dim.side_eq_zero_of_mem`, `Dim.side_through`, `Dim.through_subset`, `Dim.pt_injective`, `Dim.mem_points_of_side_eq_zero`, `Dim.points_eq_through` |
-| small facts about a figure | `Figure.side_b_one`, `Figure.side_c_one`, `Figure.side_b_pt` |
-| what two dimensions have in common | `cramer_aux`, `common_of_cross_ne_zero`, `exists_mul_of_cross_eq_zero`, `points_eq_of_two_common`, `no_common_of_cross_eq_zero`, `points_subset_of_cross_eq_zero`, `points_eq_of_cross_eq_zero` |
-| a sum of two squares | `sq_add_sq_pos` |
-| the algebra of the motions, with the divisions taken out | `cross_aux`, `apart_aux`, `apart_aux'`, `kleinInner_aux`, `kleinAngle_aux`, `kleinMetric_aux` |
-| derivatives and determinants | `hasDerivAt_cubic`, `hasDerivAt_div_sq`, `hasDerivAt_div_cube`, `det_three` |
-| steps of the proofs of congruence | `apart_eq_kleinInner`, `one_add_dot_pos`, `kleinInner_gram`, `kleinAngle_eq_arccos_cos`, `apart_ray`, `apart_ray_lt`, `exists_onRay_apart`, `sin_kleinAngle_pos` |
+* small facts about a dimension: `Dim.pt_zero`, `Dim.pt_one`, `Dim.zero_mem`, `Dim.one_mem`,
+  `Dim.dir_ne_zero`, `Dim.rebase_zero_ne_one`, `Dim.cross_rebase`, `Dim.side_eq_zero_of_mem`,
+  `Dim.side_through`, `Dim.through_subset`, `Dim.pt_injective`, `Dim.mem_points_of_side_eq_zero`,
+  `Dim.points_eq_through`
+* small facts about a figure: `Figure.side_b_one`, `Figure.side_c_one`, `Figure.side_b_pt`
+* what two dimensions have in common: `cramer_aux`, `common_of_cross_ne_zero`,
+  `exists_mul_of_cross_eq_zero`, `points_eq_of_two_common`, `no_common_of_cross_eq_zero`,
+  `points_subset_of_cross_eq_zero`, `points_eq_of_cross_eq_zero`
+* a sum of two squares: `sq_add_sq_pos`
+* the algebra of the motions, with the divisions taken out: `cross_aux`, `apart_aux`, `apart_aux'`,
+  `kleinInner_aux`, `kleinAngle_aux`, `kleinMetric_aux`
+* derivatives and determinants: `hasDerivAt_cubic`, `hasDerivAt_div_sq`, `hasDerivAt_div_cube`,
+  `det_three`
+* steps of the proofs of congruence: `apart_eq_kleinInner`, `one_add_dot_pos`, `kleinInner_gram`,
+  `kleinAngle_eq_arccos_cos`, `apart_ray`, `apart_ray_lt`, `exists_onRay_apart`,
+  `sin_kleinAngle_pos`
 
 ## What is assumed, and what is not formalised
 
@@ -157,9 +211,6 @@ Theorems with no label. They are small facts, and most of them carry steps of th
   `A` and `B` are not `P`.
 * **That the plane is built from dimensions** is a reading, and is not in Lean. In this file a
   plane is a set of pairs, and a dimension is any line among the pairs with a zero and a 1.
-* **The numbers with two slots are not in this file.** A dimension is a line with a zero and
-  a 1. The numbers with two slots, and the constraints C1, C2 and C3, are in
-  `FourDimensions.lean`.
 
 -/
 
@@ -2365,11 +2416,14 @@ noncomputable def gaussCurvature (E F G : ℝ × ℝ → ℝ) (p : ℝ × ℝ) :
         partialX G p / 2, F p, G p]) / (E p * G p - F p ^ 2) ^ 2
 
 /-- The coefficient of `dx²` in Klein's metric. -/
-noncomputable def kleinE (κ : ℝ) (p : ℝ × ℝ) : ℝ := (1 + κ * p.2 ^ 2) / (1 + κ * (p.1 ^ 2 + p.2 ^ 2)) ^ 2
+noncomputable def kleinE (κ : ℝ) (p : ℝ × ℝ) : ℝ :=
+  (1 + κ * p.2 ^ 2) / (1 + κ * (p.1 ^ 2 + p.2 ^ 2)) ^ 2
 /-- The coefficient of `dx dy` in Klein's metric, taken twice. -/
-noncomputable def kleinF (κ : ℝ) (p : ℝ × ℝ) : ℝ := -κ * p.1 * p.2 / (1 + κ * (p.1 ^ 2 + p.2 ^ 2)) ^ 2
+noncomputable def kleinF (κ : ℝ) (p : ℝ × ℝ) : ℝ :=
+  -κ * p.1 * p.2 / (1 + κ * (p.1 ^ 2 + p.2 ^ 2)) ^ 2
 /-- The coefficient of `dy²` in Klein's metric. -/
-noncomputable def kleinG (κ : ℝ) (p : ℝ × ℝ) : ℝ := (1 + κ * p.1 ^ 2) / (1 + κ * (p.1 ^ 2 + p.2 ^ 2)) ^ 2
+noncomputable def kleinG (κ : ℝ) (p : ℝ × ℝ) : ℝ :=
+  (1 + κ * p.1 ^ 2) / (1 + κ * (p.1 ^ 2 + p.2 ^ 2)) ^ 2
 
 /-- **Klein's metric is `E dx² + 2 F dx dy + G dy²`**, with `kleinE`, `kleinF` and `kleinG`. -/
 theorem kleinMetric_coords (κ : ℝ) (p u v : ℝ × ℝ) :
@@ -2384,7 +2438,8 @@ theorem hasDerivAt_cubic (c0 c1 c2 c3 : ℝ) {f : ℝ → ℝ}
     HasDerivAt f (c1 + 2 * c2 * t + 3 * c3 * t ^ 2) t := by
   have e : f = fun s => c0 + c1 * s + c2 * s ^ 2 + c3 * s ^ 3 := funext hf
   subst e
-  have h1 : HasDerivAt (fun s : ℝ => c1 * s) (c1 * 1) t := HasDerivAt.const_mul c1 (hasDerivAt_id' t)
+  have h1 : HasDerivAt (fun s : ℝ => c1 * s) (c1 * 1) t :=
+    HasDerivAt.const_mul c1 (hasDerivAt_id' t)
   have h2 : HasDerivAt (fun s : ℝ => c2 * s ^ 2) (c2 * (↑2 * t ^ (2 - 1))) t :=
     HasDerivAt.const_mul c2 (hasDerivAt_pow 2 t)
   have h3 : HasDerivAt (fun s : ℝ => c3 * s ^ 3) (c3 * (↑3 * t ^ (3 - 1))) t :=
@@ -2425,41 +2480,49 @@ theorem kleinMetric_curvature {κ : ℝ} {P : ℝ × ℝ} (hP : P ∈ plane κ) 
   replace hP := mem_plane.mp hP
   simp only at hP
   have hB : 1 + κ * (x ^ 2 + y ^ 2) ≠ 0 := hP.ne'
-  have bX : ∀ c t : ℝ, HasDerivAt (fun s => 1 + κ * (s ^ 2 + c ^ 2)) (0 + 2 * κ * t + 3 * 0 * t ^ 2) t :=
+  have bX : ∀ c t : ℝ,
+      HasDerivAt (fun s => 1 + κ * (s ^ 2 + c ^ 2)) (0 + 2 * κ * t + 3 * 0 * t ^ 2) t :=
     fun c t => hasDerivAt_cubic (1 + κ * c ^ 2) 0 κ 0 (fun s => by ring) t
-  have bY : ∀ c t : ℝ, HasDerivAt (fun s => 1 + κ * (c ^ 2 + s ^ 2)) (0 + 2 * κ * t + 3 * 0 * t ^ 2) t :=
+  have bY : ∀ c t : ℝ,
+      HasDerivAt (fun s => 1 + κ * (c ^ 2 + s ^ 2)) (0 + 2 * κ * t + 3 * 0 * t ^ 2) t :=
     fun c t => hasDerivAt_cubic (1 + κ * c ^ 2) 0 κ 0 (fun s => by ring) t
-  have hEx : partialX (kleinE κ) (x, y) = -4 * κ * x * (1 + κ * y ^ 2) / (1 + κ * (x ^ 2 + y ^ 2)) ^ 3 := by
+  have hEx : partialX (kleinE κ) (x, y)
+      = -4 * κ * x * (1 + κ * y ^ 2) / (1 + κ * (x ^ 2 + y ^ 2)) ^ 3 := by
     unfold partialX kleinE
     refine ((hasDerivAt_div_sq (f := fun _ => 1 + κ * y ^ 2)
       (hasDerivAt_cubic (1 + κ * y ^ 2) 0 0 0 (fun s => by ring) x) (bX y x) hB).deriv).trans ?_
     field_simp
     ring
-  have hEy : partialY (kleinE κ) (x, y) = 2 * κ * y * (κ * x ^ 2 - κ * y ^ 2 - 1) / (1 + κ * (x ^ 2 + y ^ 2)) ^ 3 := by
+  have hEy : partialY (kleinE κ) (x, y)
+      = 2 * κ * y * (κ * x ^ 2 - κ * y ^ 2 - 1) / (1 + κ * (x ^ 2 + y ^ 2)) ^ 3 := by
     unfold partialY kleinE
     refine ((hasDerivAt_div_sq (f := fun s => 1 + κ * s ^ 2)
       (hasDerivAt_cubic 1 0 κ 0 (fun s => by ring) y) (bY x y) hB).deriv).trans ?_
     field_simp
     ring
-  have hFx : partialX (kleinF κ) (x, y) = κ * y * (3 * κ * x ^ 2 - κ * y ^ 2 - 1) / (1 + κ * (x ^ 2 + y ^ 2)) ^ 3 := by
+  have hFx : partialX (kleinF κ) (x, y)
+      = κ * y * (3 * κ * x ^ 2 - κ * y ^ 2 - 1) / (1 + κ * (x ^ 2 + y ^ 2)) ^ 3 := by
     unfold partialX kleinF
     refine ((hasDerivAt_div_sq (f := fun s => -κ * s * y)
       (hasDerivAt_cubic 0 (-κ * y) 0 0 (fun s => by ring) x) (bX y x) hB).deriv).trans ?_
     field_simp
     ring
-  have hFy : partialY (kleinF κ) (x, y) = κ * x * (3 * κ * y ^ 2 - κ * x ^ 2 - 1) / (1 + κ * (x ^ 2 + y ^ 2)) ^ 3 := by
+  have hFy : partialY (kleinF κ) (x, y)
+      = κ * x * (3 * κ * y ^ 2 - κ * x ^ 2 - 1) / (1 + κ * (x ^ 2 + y ^ 2)) ^ 3 := by
     unfold partialY kleinF
     refine ((hasDerivAt_div_sq (f := fun s => -κ * x * s)
       (hasDerivAt_cubic 0 (-κ * x) 0 0 (fun s => by ring) y) (bY x y) hB).deriv).trans ?_
     field_simp
     ring
-  have hGx : partialX (kleinG κ) (x, y) = 2 * κ * x * (κ * y ^ 2 - κ * x ^ 2 - 1) / (1 + κ * (x ^ 2 + y ^ 2)) ^ 3 := by
+  have hGx : partialX (kleinG κ) (x, y)
+      = 2 * κ * x * (κ * y ^ 2 - κ * x ^ 2 - 1) / (1 + κ * (x ^ 2 + y ^ 2)) ^ 3 := by
     unfold partialX kleinG
     refine ((hasDerivAt_div_sq (f := fun s => 1 + κ * s ^ 2)
       (hasDerivAt_cubic 1 0 κ 0 (fun s => by ring) x) (bX y x) hB).deriv).trans ?_
     field_simp
     ring
-  have hGy : partialY (kleinG κ) (x, y) = -4 * κ * y * (1 + κ * x ^ 2) / (1 + κ * (x ^ 2 + y ^ 2)) ^ 3 := by
+  have hGy : partialY (kleinG κ) (x, y)
+      = -4 * κ * y * (1 + κ * x ^ 2) / (1 + κ * (x ^ 2 + y ^ 2)) ^ 3 := by
     unfold partialY kleinG
     refine ((hasDerivAt_div_sq (f := fun _ => 1 + κ * x ^ 2)
       (hasDerivAt_cubic (1 + κ * x ^ 2) 0 0 0 (fun s => by ring) y) (bY x y) hB).deriv).trans ?_
@@ -3469,7 +3532,7 @@ theorem angle_construction {κ : ℝ} {A B C D F G : ℝ × ℝ} (hA : A ∈ pla
       rw [div_eq_iff (by positivity)]
       linear_combination (-(ε * cos θ * sB)) * hg2
     refine ⟨E, hE, ?_, ?_⟩
-    · show 0 < (Dim.mk D F).side E * sG
+    · change 0 < (Dim.mk D F).side E * sG
       rw [hside]
       have := mul_pos (mul_pos (mul_pos hε hsin) hgU) hσG
       linarith [this]
@@ -3818,7 +3881,7 @@ def threeSided : Set (K × K) := threeSidedAt 1
 omit [IsStrictOrderedRing K] in
 theorem mem_threeSidedAt {lam : K} {p : K × K} :
     p ∈ threeSidedAt lam ↔ 0 < 1 - lam * (p.1 ^ 2 + p.2 ^ 2 + (1 - p.1 - p.2) ^ 2) := by
-  show 0 < pairingAt lam (lift p) (lift p) ↔ _
+  change 0 < pairingAt lam (lift p) (lift p) ↔ _
   rw [pairingAt_lift]
 
 /-- **With nothing taken away, or less than nothing, every pair is a point.** This is the
@@ -4006,14 +4069,14 @@ omit [IsStrictOrderedRing K] in
 /-- The plane of three sides keeps its points when the three sides change places. -/
 theorem threeSidedAt_turn {lam : K} {p : K × K} :
     (p.2, 1 - p.1 - p.2) ∈ threeSidedAt lam ↔ p ∈ threeSidedAt lam := by
-  show 0 < pairingAt lam (lift (p.2, 1 - p.1 - p.2)) (lift (p.2, 1 - p.1 - p.2)) ↔
+  change 0 < pairingAt lam (lift (p.2, 1 - p.1 - p.2)) (lift (p.2, 1 - p.1 - p.2)) ↔
     0 < pairingAt lam (lift p) (lift p)
   rw [lift_turn, pairingAt_turn]
 
 omit [IsStrictOrderedRing K] in
 theorem threeSidedAt_swap {lam : K} {p : K × K} :
     (p.2, p.1) ∈ threeSidedAt lam ↔ p ∈ threeSidedAt lam := by
-  show 0 < pairingAt lam (lift (p.2, p.1)) (lift (p.2, p.1)) ↔
+  change 0 < pairingAt lam (lift (p.2, p.1)) (lift (p.2, p.1)) ↔
     0 < pairingAt lam (lift p) (lift p)
   rw [lift_swap, pairingAt_swap]
 
@@ -4066,7 +4129,7 @@ theorem exists_point_of_pairingAt_pos {lam : K} (hlam : 0 ≤ lam) {x : K × K �
   have hs := pairingAt_scale lam (ell x) (lift (x.1 / ell x, x.2.1 / ell x))
   rw [← hx] at hs
   have hl2 : 0 < ell x ^ 2 := lt_of_le_of_ne (sq_nonneg _) (pow_ne_zero 2 hl).symm
-  show 0 < pairingAt lam (lift (x.1 / ell x, x.2.1 / ell x))
+  change 0 < pairingAt lam (lift (x.1 / ell x, x.2.1 / ell x))
     (lift (x.1 / ell x, x.2.1 / ell x))
   rw [hs] at h
   exact (mul_pos_iff_of_pos_left hl2).mp h
