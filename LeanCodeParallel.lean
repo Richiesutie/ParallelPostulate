@@ -1,4 +1,5 @@
+import LeanCodeParallel.Basic
 import LeanCodeParallel.ThreeDimensions
 import LeanCodeParallel.HyperbolicPlane
-import LeanCodeParallel.HilbertPlane
-import LeanCodeParallel.Axioms
+import LeanCodeParallel.Hilbert
+import LeanCodeParallel.AxiomCheck

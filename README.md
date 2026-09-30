@@ -16,7 +16,7 @@ There is no `sorry`, and every main theorem depends only on Lean's standard axio
 
 ```lean
 /-- The parallel postulate is independent of Hilbert's axioms, with continuity. -/
-theorem HyperbolicPlane.playfair_independent_continuous :
+theorem Hilbert.playfair_independent_continuous :
     (∃ (P L : Type) (H : Hilbert.HilbertPlane P L), H.Archimedes ∧ H.Dedekind ∧ H.Playfair) ∧
       ∃ (P L : Type) (H : Hilbert.HilbertPlane P L), H.Archimedes ∧ H.Dedekind ∧ ¬ H.Playfair
 ```
@@ -26,18 +26,19 @@ segments and of angles, with Hilbert's axioms of incidence (I1–I3), order (B1�
 axiom as B4) and congruence (C1–C6). `Archimedes` and `Dedekind` are the axioms of continuity,
 and `Playfair` states that through a point off a line there is at most one parallel. The two
 witnesses are `euclidPlane`, where Playfair's axiom holds, and `kleinPlane`, where it fails.
-The same result without continuity is `HyperbolicPlane.playfair_independent`.
+The same result without continuity is `Hilbert.playfair_independent`.
 
 ## For reviewers
 
 ### What has to be read
 
-The statement of the main theorem uses only the definitions in the namespace `Hilbert`, at the
-top of [`LeanCodeParallel/HilbertPlane.lean`](LeanCodeParallel/HilbertPlane.lean#L77-L163)
-(about 90 lines): `Collinear`, `OnRay`, `SameSide`, the structure `HilbertPlane`, `Parallel`,
-`Playfair`, `Archimedes` and `Dedekind`. To trust the theorem, it is enough to check that these
-say what Hilbert's axioms say. The two models, and everything in `HyperbolicPlane.lean`, are
-witnesses: Lean checks that they meet the definitions, so they need not be read for that.
+The statement of the main theorem uses only the definitions in
+[`LeanCodeParallel/Hilbert/Defs.lean`](LeanCodeParallel/Hilbert/Defs.lean), a file of 118 lines
+that imports only `Mathlib.Data.Set.Basic`: `Collinear`, `OnRay`, `SameSide`, the structure
+`HilbertPlane`, `Parallel`, `Playfair`, `Archimedes` and `Dedekind`. To trust the theorem, it is
+enough to check that these say what Hilbert's axioms say. The rest of `Hilbert/` and all of
+`HyperbolicPlane/` build the two models, which are witnesses: Lean checks that they meet the
+definitions, so they need not be read for that.
 
 Choices in these definitions that deserve a look:
 
@@ -49,24 +50,26 @@ Choices in these definitions that deserve a look:
 * Two lines are parallel when they have no point in common, and Playfair's axiom says there is
   at most one parallel through a point off a line.
 
-The other results are stated with definitions from `HyperbolicPlane.lean`: the plane `plane κ`,
-its lines `IsLine`, `Between`, `apart`, Klein's metric `kleinMetric`, the angle `kleinAngle`,
-the curvature `gaussCurvature` (Brioschi's formula) and the distance `kleinDist` (an infimum of
-path lengths). Each file begins with a header that lists its contents and says what it assumes
-and what it does not formalise.
+The other results are stated with definitions from the `HyperbolicPlane` files: the plane
+`plane κ`, its lines `IsLine` and `Between` (`Plane.lean`), `apart` (`Motions.lean`), the angle
+`kleinAngle` (`Angles.lean`), Klein's metric `kleinMetric` (`Metric.lean`), the curvature
+`gaussCurvature`, which is Brioschi's formula (`Curvature.lean`), and the distance `kleinDist`,
+an infimum of path lengths (`Distance.lean`). Each file begins with a header that lists its
+contents; `HyperbolicPlane.lean` and `Hilbert.lean` also say what is assumed and what is not
+formalised.
 
 ### What is checked automatically
 
 `lake build`, which the CI runs on every push:
 
-* builds the library with Mathlib's standard linter set (`weak.linter.mathlibStandardSet`),
-  with no warnings;
-* runs [`LeanCodeParallel/Axioms.lean`](LeanCodeParallel/Axioms.lean), which checks with
+* builds the library with Mathlib's standard linter set (`weak.linter.mathlibStandardSet`) and
+  with `autoImplicit = false`, with no warnings;
+* runs [`LeanCodeParallel/AxiomCheck.lean`](LeanCodeParallel/AxiomCheck.lean), which checks with
   `#guard_msgs` that each of 22 main theorems depends on exactly `propext`, `Classical.choice`
   and `Quot.sound`, so the build fails if any of them ever picks up `sorry` or another axiom.
 
 Batteries' environment linters also pass: `#lint in LeanCodeParallel` reports no problems in
-483 declarations.
+412 declarations.
 
 ## Other results
 
@@ -83,24 +86,38 @@ Batteries' environment linters also pass: `#lint in LeanCodeParallel` reports no
 | Klein's distance: `apart = sinh² (√-κ d) / -κ` | `HyperbolicPlane.kleinDist_eq_arsinh`, `HyperbolicPlane.apart_eq_sinh_kleinDist` |
 | Hyperbolic law of cosines | `HyperbolicPlane.law_of_cosines` |
 | Hilbert's congruence axioms C1–C6 in the Klein disc | `HyperbolicPlane.segment_construction`, `segment_addition`, `angle_construction`, `side_angle_side`, … |
-| The Euclidean and Klein planes as Hilbert planes | `HyperbolicPlane.model`, `euclidPlane`, `kleinPlane` |
-| Archimedes' axiom and Dedekind's axiom in both planes | `HyperbolicPlane.model_archimedes`, `HyperbolicPlane.model_dedekind` |
+| The Euclidean and Klein planes as Hilbert planes | `Hilbert.model`, `Hilbert.euclidPlane`, `Hilbert.kleinPlane` |
+| Archimedes' axiom and Dedekind's axiom in both planes | `Hilbert.model_archimedes`, `Hilbert.model_dedekind` |
 
 ## Layout
 
 ```
-LeanCodeParallel.lean             root of the library: imports every module
+LeanCodeParallel.lean                 root of the library: imports every module
 LeanCodeParallel/
-  ThreeDimensions.lean            the plane of pairs of numbers, and the parallel postulate there
-  HyperbolicPlane.lean            the plane of a curvature bound κ: for κ < 0 the Klein disc, its
-                                  metric, curvature, distance, angles and congruence
-  HilbertPlane.lean               the axioms of a Hilbert plane and of continuity, the two
-                                  models, and the independence theorems
-  Axioms.lean                     the axiom checks of the main theorems
-.github/workflows/lean_action_ci.yml   CI: builds the project with leanprover/lean-action
+  Basic.lean                          dimensions, the cross product and the figure (namespace Pairs)
+  ThreeDimensions.lean                the plane of pairs of numbers, and the parallel postulate there
+  HyperbolicPlane.lean                overview of the plane of a curvature bound κ
+  HyperbolicPlane/
+    Plane.lean                        lines, order and parallels (H1–H7)
+    Motions.lean                      steps, the two motions, and `apart` (H8, H9)
+    Angles.lean                       Klein's inner product and angle (H13, H15)
+    Metric.lean                       Klein's metric, kept by the motions (H16)
+    Curvature.lean                    its curvature is κ (H17)
+    Distance.lean                     Klein's distance (H18)
+    Congruence.lean                   Hilbert's axioms of congruence (H19)
+    LeaningFigure.lean                Euclid's fifth postulate fails under the bound -1 (H10, H14)
+  Hilbert.lean                        overview of the Hilbert planes (namespace Hilbert)
+  Hilbert/
+    Defs.lean                         the axioms: all that the main theorem's statement uses
+    Model.lean                        the plane of a bound as a Hilbert plane
+    Continuity.lean                   Archimedes' axiom and Dedekind's axiom there
+    Independence.lean                 the two planes, and the independence theorems
+  AxiomCheck.lean                     the axiom checks of the main theorems
+.github/workflows/lean_action_ci.yml  CI: builds the project with leanprover/lean-action
 ```
 
-`HilbertPlane.lean` imports `HyperbolicPlane.lean`; the other two modules import only Mathlib.
+`Basic.lean` and `Hilbert/Defs.lean` import only Mathlib. `ThreeDimensions.lean` and the
+`HyperbolicPlane` files build on `Basic.lean`, and the `Hilbert` files on both.
 
 ## Building
 

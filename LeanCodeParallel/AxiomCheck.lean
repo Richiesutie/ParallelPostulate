@@ -4,44 +4,45 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Richard Sutton
 -/
 import LeanCodeParallel.ThreeDimensions
-import LeanCodeParallel.HilbertPlane
+import LeanCodeParallel.HyperbolicPlane
+import LeanCodeParallel.Hilbert
 
 /-!
 # The axioms of the main theorems
 
 Each main theorem of the project depends only on Lean's standard axioms `propext`,
 `Classical.choice` and `Quot.sound`: there is no `sorry`, which would show as `sorryAx`, and no
-axiom added by the project. Each check below is a `#guard_msgs`, so `lake build` fails if a
-theorem ever depends on anything else.
+axiom added by the project. Each check below is a `#guard_msgs`, so `lake build` fails if one of
+these theorems comes to depend on anything else.
 -/
 
 /--
-info: 'HyperbolicPlane.playfair_independent_continuous' depends on axioms:
+info: 'Hilbert.playfair_independent_continuous' depends on axioms:
 [propext, Classical.choice, Quot.sound]
 -/
 #guard_msgs in
-#print axioms HyperbolicPlane.playfair_independent_continuous
+#print axioms Hilbert.playfair_independent_continuous
 
 /--
-info: 'HyperbolicPlane.playfair_independent' depends on axioms:
+info: 'Hilbert.playfair_independent' depends on axioms:
 [propext, Classical.choice, Quot.sound]
 -/
 #guard_msgs in
-#print axioms HyperbolicPlane.playfair_independent
+#print axioms Hilbert.playfair_independent
 
 /--
-info: 'HyperbolicPlane.model_archimedes' depends on axioms:
+info: 'Hilbert.model_archimedes' depends on axioms:
 [propext, Classical.choice, Quot.sound]
 -/
 #guard_msgs in
-#print axioms HyperbolicPlane.model_archimedes
+#print axioms Hilbert.model_archimedes
 
 /--
-info: 'HyperbolicPlane.model_dedekind' depends on axioms:
+info: 'Hilbert.model_dedekind' depends on axioms:
 [propext, Classical.choice, Quot.sound]
 -/
 #guard_msgs in
-#print axioms HyperbolicPlane.model_dedekind
+#print axioms Hilbert.model_dedekind
 
 /--
 info: 'ThreeDimensions.playfair_exists' depends on axioms:
